@@ -16,10 +16,23 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by dehua.lai on 2017/5/26.
  */
 public class WeixinServiceImpl extends WeixinService {
-    private Cache<String,AccessToken> accessTokenCache=new MapCache<String, AccessToken>();
+    private Cache<String,AccessToken> accessTokenCache;
+    private Cache<String,JSApiTicket> jsapiTicketCache;
     private ReentrantLock accessTokenLock =new ReentrantLock();
-    private Cache<String,JSApiTicket> jsapiTicketCache=new MapCache<String, JSApiTicket>();
     private ReentrantLock jsapiTicketLock =new ReentrantLock();
+
+    public WeixinServiceImpl(){
+        this(MapCache.class);
+    }
+
+    public WeixinServiceImpl(Class<? extends Cache> clazz) {
+        try {
+            accessTokenCache = clazz.newInstance();
+            jsapiTicketCache=clazz.newInstance();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public AccessToken getAccessToken(String appId, String appSecret){
@@ -30,7 +43,7 @@ public class WeixinServiceImpl extends WeixinService {
                 at=accessTokenCache.get(appId);
                 if(null==at||at.isExpired()){
                     at= WeixinUtils.getAccessToken(appId,appSecret);
-
+                    accessTokenCache.put(appId,at);
                     //TODO log 记录日志
                 }
             }finally {
@@ -49,6 +62,7 @@ public class WeixinServiceImpl extends WeixinService {
                 if(null==ticket||ticket.isExpired()){
                     AccessToken at=getAccessToken(appId,appSecret);
                     ticket= WeixinUtils.getJSApiTicket(at.getToken());
+                    jsapiTicketCache.put(appId,ticket);
                     //TODO log 记录日志
                 }
             }finally {

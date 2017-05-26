@@ -110,10 +110,6 @@ public abstract class WeixinUtils {
 
 
 
-
-
-
-
     public static enum Scope{
         snsapi_base("snsapi_base"),snsapi_userinfo("snsapi_userinfo");
         private String scope;
