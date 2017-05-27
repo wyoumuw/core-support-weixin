@@ -1,7 +1,7 @@
-package com.youmu.maven.weixin.utils.model;
+package com.youmu.maven.weixin.model;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
 public abstract class ExpireableToken {
     // 10 min before

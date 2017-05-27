@@ -1,7 +1,7 @@
 package com.youmu.maven.weixin.model;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
 public class WeixinJsConfig {
     private String appId; // 必填，公众号的唯一标识
@@ -56,5 +56,15 @@ public class WeixinJsConfig {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    @Override
+    public String toString() {
+        return "WeixinJsConfig{" +
+                "appId='" + appId + '\'' +
+                ", timestamp=" + timestamp +
+                ", nonceStr='" + nonceStr + '\'' +
+                ", signature='" + signature + '\'' +
+                '}';
     }
 }

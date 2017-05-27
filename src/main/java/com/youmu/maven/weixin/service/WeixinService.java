@@ -1,11 +1,11 @@
 package com.youmu.maven.weixin.service;
 
 import com.youmu.maven.weixin.model.WeixinJsConfig;
-import com.youmu.maven.weixin.utils.model.AccessToken;
-import com.youmu.maven.weixin.utils.model.JSApiTicket;
+import com.youmu.maven.weixin.model.AccessToken;
+import com.youmu.maven.weixin.model.JSApiTicket;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
 public abstract class WeixinService {
     public abstract AccessToken getAccessToken(String appId, String appSecret);

@@ -1,9 +1,9 @@
-package com.youmu.maven.weixin.utils.model;
+package com.youmu.maven.weixin.model;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
-public class AccessToken extends ExpireableToken{
+public class AccessToken extends ExpireableToken {
     private  String token;
     /**
      *

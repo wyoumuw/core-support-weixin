@@ -2,17 +2,19 @@ package com.youmu.maven.weixin.utils;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.youmu.maven.weixin.utils.model.AccessToken;
-import com.youmu.maven.weixin.utils.model.JSApiTicket;
-import com.youmu.maven.weixin.utils.model.NetResult;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.youmu.maven.utils.DigestUtils;
+import com.youmu.maven.utils.NetUtils;
+import com.youmu.maven.utils.StringUtils;
+import com.youmu.maven.utils.codec.transfer.Hex;
+import com.youmu.maven.utils.model.NetResult;
+import com.youmu.maven.weixin.model.AccessToken;
+import com.youmu.maven.weixin.model.JSApiTicket;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
 public abstract class WeixinUtils {
     public static final String[] URL_AUTH2={"https://open.weixin.qq.com/connect/oauth2/authorize?appid=","&redirect_uri=","&response_type=code&scope=","&state=","#wechat_redirect"};
@@ -46,8 +48,8 @@ public abstract class WeixinUtils {
     public static String jsapiSignature(String ticket,String url,String nonceStr,long timestamp){
         String mix=new StringBuilder().append("jsapi_ticket=").append(ticket).append("&noncestr=").append(nonceStr).append("&timestamp=").append(timestamp/1000).append("&url=").append(url).toString();
         System.out.println(mix);
-        byte[] code=DigestUtils.getSha1Digest().digest(mix.getBytes());
-        return Hex.encodeHexString(code);
+        byte[] code= DigestUtils.sha1(mix.getBytes());
+        return Hex.binToHexString(code);
     }
 
 
@@ -55,7 +57,7 @@ public abstract class WeixinUtils {
         StringBuilder sb=new StringBuilder();
         JSApiTicket ticket=null;
         sb.append(URL_JSAPI_TICKET[0]).append(token).append(URL_JSAPI_TICKET[1]);
-        NetResult netResult=NetUtils.get(sb.toString(),null);
+        NetResult netResult= NetUtils.get(sb.toString(),null);
         if(netResult.isOk()) {
             try {
                 //TODO 删除

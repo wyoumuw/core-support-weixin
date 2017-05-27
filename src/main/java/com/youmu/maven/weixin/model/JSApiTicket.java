@@ -1,9 +1,11 @@
-package com.youmu.maven.weixin.utils.model;
+package com.youmu.maven.weixin.model;
+
+import com.youmu.maven.weixin.model.ExpireableToken;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
-public class JSApiTicket extends ExpireableToken{
+public class JSApiTicket extends ExpireableToken {
     private  String ticket;
     /**
      *

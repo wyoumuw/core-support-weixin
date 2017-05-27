@@ -1,19 +1,19 @@
 package com.youmu.maven.weixin.service.impl;
 
-import com.youmu.maven.weixin.cache.Cache;
-import com.youmu.maven.weixin.cache.MapCache;
+import com.youmu.maven.utils.StringUtils;
+import com.youmu.maven.utils.cache.Cache;
+import com.youmu.maven.utils.cache.MapCache;
+import com.youmu.maven.weixin.model.AccessToken;
+import com.youmu.maven.weixin.model.JSApiTicket;
 import com.youmu.maven.weixin.model.WeixinJsConfig;
 import com.youmu.maven.weixin.service.WeixinService;
-import com.youmu.maven.weixin.utils.StringUtils;
 import com.youmu.maven.weixin.utils.WeixinUtils;
-import com.youmu.maven.weixin.utils.model.AccessToken;
-import com.youmu.maven.weixin.utils.model.JSApiTicket;
 
 import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by dehua.lai on 2017/5/26.
+ * Created by youmu on 2017/5/26.
  */
 public class WeixinServiceImpl extends WeixinService {
     private Cache<String,AccessToken> accessTokenCache;
@@ -32,6 +32,11 @@ public class WeixinServiceImpl extends WeixinService {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
+
+    public WeixinServiceImpl(Cache accessTokenCache, Cache jsapiTicketCache) {
+        this.accessTokenCache = accessTokenCache;
+        this.jsapiTicketCache = jsapiTicketCache;
     }
 
     @Override
@@ -77,7 +82,7 @@ public class WeixinServiceImpl extends WeixinService {
         if(StringUtils.isEmpty(appId)){
             throw new NullPointerException("appId can not null!");
         }
-        String nonceStr=StringUtils.generateNonceStr();
+        String nonceStr=StringUtils.generateNonceStr(16);
         long timestamp=new Date().getTime();
         String signature=WeixinUtils.jsapiSignature(getJSApiTicket(appId,appSecret).getTicket(),url,nonceStr,timestamp);
         return new WeixinJsConfig(appId,timestamp,nonceStr,signature);
