@@ -5,6 +5,10 @@ package com.youmu.maven.weixin.model;
  */
 public class AccessToken extends ExpireableToken {
     private  String token;
+
+    @SuppressWarnings("unsafe")
+    public AccessToken(){
+    }
     /**
      *
      * @param token
@@ -28,5 +32,10 @@ public class AccessToken extends ExpireableToken {
 
     public String getToken() {
         return token;
+    }
+
+    @SuppressWarnings("unsafe")
+    public void setToken(String token) {
+        this.token = token;
     }
 }

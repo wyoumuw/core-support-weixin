@@ -2,6 +2,7 @@ package com.youmu.maven.weixin.service.impl;
 
 import com.youmu.maven.utils.StringUtils;
 import com.youmu.maven.utils.cache.Cache;
+import com.youmu.maven.utils.cache.GroupCache;
 import com.youmu.maven.utils.cache.MapCache;
 import com.youmu.maven.weixin.model.AccessToken;
 import com.youmu.maven.weixin.model.JSApiTicket;
@@ -29,16 +30,20 @@ public class WeixinServiceImpl extends WeixinService {
         try {
             accessTokenCache = clazz.newInstance();
             jsapiTicketCache=clazz.newInstance();
+            if(GroupCache.class.isAssignableFrom(clazz)){
+                ((GroupCache<String, AccessToken>)accessTokenCache).setGroup("ACCESS_TOKEN_CACHE");
+                ((GroupCache<String,JSApiTicket>)jsapiTicketCache).setGroup("JSAPI_TICKET_CACHE");
+            }
+
         }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
-
+    @Deprecated
     public WeixinServiceImpl(Cache accessTokenCache, Cache jsapiTicketCache) {
         this.accessTokenCache = accessTokenCache;
         this.jsapiTicketCache = jsapiTicketCache;
     }
-
     @Override
     public AccessToken getAccessToken(String appId, String appSecret){
         AccessToken at=accessTokenCache.get(appId);
@@ -86,5 +91,21 @@ public class WeixinServiceImpl extends WeixinService {
         long timestamp=new Date().getTime();
         String signature=WeixinUtils.jsapiSignature(getJSApiTicket(appId,appSecret).getTicket(),url,nonceStr,timestamp);
         return new WeixinJsConfig(appId,timestamp,nonceStr,signature);
+    }
+
+    public Cache<String, AccessToken> getAccessTokenCache() {
+        return accessTokenCache;
+    }
+
+    public void setAccessTokenCache(Cache<String, AccessToken> accessTokenCache) {
+        this.accessTokenCache = accessTokenCache;
+    }
+
+    public Cache<String, JSApiTicket> getJsapiTicketCache() {
+        return jsapiTicketCache;
+    }
+
+    public void setJsapiTicketCache(Cache<String, JSApiTicket> jsapiTicketCache) {
+        this.jsapiTicketCache = jsapiTicketCache;
     }
 }

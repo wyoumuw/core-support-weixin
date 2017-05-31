@@ -7,6 +7,10 @@ import com.youmu.maven.weixin.model.ExpireableToken;
  */
 public class JSApiTicket extends ExpireableToken {
     private  String ticket;
+
+
+    @SuppressWarnings("unsafe")
+    public JSApiTicket(){}
     /**
      *
      * @param ticket
@@ -29,5 +33,10 @@ public class JSApiTicket extends ExpireableToken {
 
     public String getTicket() {
         return ticket;
+    }
+
+    @SuppressWarnings("unsafe")
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 }

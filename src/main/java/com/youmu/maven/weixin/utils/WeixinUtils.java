@@ -20,7 +20,7 @@ public abstract class WeixinUtils {
     public static final String[] URL_AUTH2={"https://open.weixin.qq.com/connect/oauth2/authorize?appid=","&redirect_uri=","&response_type=code&scope=","&state=","#wechat_redirect"};
     public static final String[] URL_ACCESS_TOKEN={"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=","&secret="};
     public static final String[] URL_JSAPI_TICKET={"https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=","&type=jsapi"};
-
+    public static final String[] URL_MEDIA_DOWNLOAD={"http://api.weixin.qq.com/cgi-bin/media/get?access_token=","&media_id="};
 
 
     public static String makeAuthUrl( String appId,  String redirectUrl,  Scope scope,  String state){
@@ -71,6 +71,8 @@ public abstract class WeixinUtils {
         }
         return ticket;
     }
+
+
 
     public static AccessToken getAccessToken(String appId, String appSecret){
         StringBuilder sb=new StringBuilder();
